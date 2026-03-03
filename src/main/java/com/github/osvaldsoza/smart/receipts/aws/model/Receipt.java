@@ -1,77 +1,108 @@
 package com.github.osvaldsoza.smart.receipts.aws.model;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
+import com.github.osvaldsoza.smart.receipts.aws.model.enums.ReceiptStatus;
+import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 /**
  * Receipt Model representing the core business entity
  */
+@Entity
+@Table(name = "receipts")
 public class Receipt {
-    private Long id;
-    private String merchantName;
-    private Double amount;
-    private LocalDateTime transactionDate;
-    private String category;
-    private String description;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ReceiptStatus status;
+
+    private String originalKey;
+
+    private String processedKey;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
     public Receipt() {
     }
 
-    public Receipt(Long id, String merchantName, Double amount, LocalDateTime transactionDate, String category, String description) {
+    public Receipt(UUID id, User user, ReceiptStatus status, String originalKey, String processedKey, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
-        this.merchantName = merchantName;
-        this.amount = amount;
-        this.transactionDate = transactionDate;
-        this.category = category;
-        this.description = description;
+        this.user = user;
+        this.status = status;
+        this.originalKey = originalKey;
+        this.processedKey = processedKey;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     // Getters and Setters
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
-    public String getMerchantName() {
-        return merchantName;
+    public User getUser() {
+        return user;
     }
 
-    public void setMerchantName(String merchantName) {
-        this.merchantName = merchantName;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Double getAmount() {
-        return amount;
+    public ReceiptStatus getStatus() {
+        return status;
     }
 
-    public void setAmount(Double amount) {
-        this.amount = amount;
+    public void setStatus(ReceiptStatus status) {
+        this.status = status;
     }
 
-    public LocalDateTime getTransactionDate() {
-        return transactionDate;
+    public String getOriginalKey() {
+        return originalKey;
     }
 
-    public void setTransactionDate(LocalDateTime transactionDate) {
-        this.transactionDate = transactionDate;
+    public void setOriginalKey(String originalKey) {
+        this.originalKey = originalKey;
     }
 
-    public String getCategory() {
-        return category;
+    public String getProcessedKey() {
+        return processedKey;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setProcessedKey(String processedKey) {
+        this.processedKey = processedKey;
     }
 
-    public String getDescription() {
-        return description;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }
 
