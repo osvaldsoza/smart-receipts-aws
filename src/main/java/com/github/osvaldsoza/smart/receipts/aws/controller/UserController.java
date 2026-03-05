@@ -2,6 +2,8 @@ package com.github.osvaldsoza.smart.receipts.aws.controller;
 
 import com.github.osvaldsoza.smart.receipts.aws.dto.UserDTO;
 import com.github.osvaldsoza.smart.receipts.aws.service.UserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +20,8 @@ public class UserController {
         }
 
         @PostMapping
-        public void createUser(@RequestBody UserDTO userDTO) {
-            userService.createUser(userDTO);
+        public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
+            UserDTO userCreated = userService.createUser(userDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(userCreated);
         }
 }

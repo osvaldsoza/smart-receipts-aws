@@ -1,5 +1,6 @@
 package com.github.osvaldsoza.smart.receipts.aws.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import com.github.osvaldsoza.smart.receipts.aws.model.enums.ReceiptStatus;
@@ -25,9 +26,26 @@ public class Receipt {
     @Column(nullable = false)
     private ReceiptStatus status;
 
+    private String description;
+
+    private BigDecimal amount;
+
     private String originalKey;
 
     private String processedKey;
+
+    @Lob
+    @Column(columnDefinition = "LONGBLOB", nullable = false)
+    private byte[] fileData;
+
+    @Column(nullable = false)
+    private String fileName;
+
+    @Column(nullable = false)
+    private String fileContentType;
+
+    @Column(nullable = false)
+    private Long fileSize;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -38,12 +56,14 @@ public class Receipt {
     public Receipt() {
     }
 
-    public Receipt(UUID id, User user, ReceiptStatus status, String originalKey, String processedKey, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.id = id;
+    public Receipt(User user, ReceiptStatus status, String description, BigDecimal amount, String originalKey, String processedKey, byte[] fileData, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.user = user;
         this.status = status;
+        this.description = description;
+        this.amount = amount;
         this.originalKey = originalKey;
         this.processedKey = processedKey;
+        this.fileData = fileData;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -103,6 +123,54 @@ public class Receipt {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public byte[] getFileData() {
+        return fileData;
+    }
+
+    public void setFileData(byte[] fileData) {
+        this.fileData = fileData;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+        public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getFileContentType() {
+        return fileContentType;
+    }
+
+    public void setFileContentType(String fileContentType) {
+        this.fileContentType = fileContentType;
+    }
+
+    public Long getFileSize() {
+        return fileSize;
+    }
+
+    public void setFileSize(Long fileSize) {
+        this.fileSize = fileSize;
     }
 }
 

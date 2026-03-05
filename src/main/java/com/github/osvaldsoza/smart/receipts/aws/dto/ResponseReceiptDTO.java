@@ -1,32 +1,32 @@
 package com.github.osvaldsoza.smart.receipts.aws.dto;
 
-import org.springframework.web.multipart.MultipartFile;
-
-import java.math.BigDecimal;
-import java.util.UUID;
-
 /**
  * DTO for Receipt data transfer with file upload support
  */
-public class ReceiptDTO {
+public class ResponseReceiptDTO {
+
+    private String id;
 
     private UserDTO user;
 
     private String description;
 
-    private BigDecimal amount;
-
     private String originalKey;
 
     private String processedKey;
 
-    private MultipartFile file;
-
     private String fileName;
 
-    private String fileContentType;
-
     private Long fileSize;
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public UserDTO getUser() {
         return user;
@@ -42,14 +42,6 @@ public class ReceiptDTO {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
     }
 
     public String getOriginalKey() {
@@ -68,28 +60,12 @@ public class ReceiptDTO {
         this.processedKey = processedKey;
     }
 
-    public MultipartFile getFile() {
-        return file;
-    }
-
-    public void setFile(MultipartFile file) {
-        this.file = file;
-    }
-
     public String getFileName() {
         return fileName;
     }
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
-    }
-
-    public String getFileContentType() {
-        return fileContentType;
-    }
-
-    public void setFileContentType(String fileContentType) {
-        this.fileContentType = fileContentType;
     }
 
     public Long getFileSize() {
