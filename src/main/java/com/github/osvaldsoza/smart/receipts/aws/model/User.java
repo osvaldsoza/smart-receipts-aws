@@ -1,52 +1,58 @@
 package com.github.osvaldsoza.smart.receipts.aws.model;
 
+import com.github.osvaldsoza.smart.receipts.aws.model.security.Role;
 import jakarta.persistence.*;
-import java.util.List;
+import java.time.OffsetDateTime;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name = "users")
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
 
-    @Column(unique = true, nullable = false)
+    @Id
+    private UUID id;
+
+    @Column(nullable = false, unique = true, length = 60)
     private String username;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Receipt> receipts;
+    @Column(name = "password_hash", nullable = false)
+    private String passwordHash;
 
-    public User() {
-    }
+    @Column(nullable = false)
+    private boolean enabled = true;
 
-    public User(String id, String username) {
+    @Column(name = "created_at", nullable = false)
+    private OffsetDateTime createdAt = OffsetDateTime.now();
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
+
+    public User() {}
+
+    public User(UUID id, String username, String passwordHash) {
         this.id = id;
         this.username = username;
+        this.passwordHash = passwordHash;
     }
 
-    // Getters and Setters
-    public String getId() {
-        return id;
-    }
+    public UUID getId() { return id; }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
-    }
+    public String getUsername() { return username; }
+    public String getPasswordHash() { return passwordHash; }
+    public boolean isEnabled() { return enabled; }
+    public Set<Role> getRoles() { return roles; }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public List<Receipt> getReceipts() {
-        return receipts;
-    }
-
-    public void setReceipts(List<Receipt> receipts) {
-        this.receipts = receipts;
-    }
+    public void addRole(Role role) { this.roles.add(role); }
 }
 

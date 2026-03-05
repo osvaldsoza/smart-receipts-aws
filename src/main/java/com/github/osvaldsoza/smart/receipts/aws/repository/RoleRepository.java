@@ -1,14 +1,14 @@
 package com.github.osvaldsoza.smart.receipts.aws.repository;
 
-import com.github.osvaldsoza.smart.receipts.aws.model.User;
+import com.github.osvaldsoza.smart.receipts.aws.model.security.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
 
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, UUID> {
-    Optional<User> findByUsername(String username);
-    boolean existsByUsername(String username);
+public interface RoleRepository extends JpaRepository<Role, UUID> {
+    Optional<Role> findByName(String name);
 }

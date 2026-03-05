@@ -7,7 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SmartReceiptsAwsApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SmartReceiptsAwsApplication.class, args);
+
+        SpringApplication.run(SmartReceiptsAwsApplication.class, args);
 	}
 
 }

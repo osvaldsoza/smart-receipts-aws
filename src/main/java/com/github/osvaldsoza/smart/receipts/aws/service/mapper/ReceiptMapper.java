@@ -9,6 +9,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
+import java.util.UUID;
+
 /**
  * Mapper for Receipt entity to ReceiptDTO and vice versa using MapStruct
  * This mapper is automatically implemented by MapStruct at compile-time
@@ -62,12 +64,12 @@ public interface ReceiptMapper {
     void updateEntityFromDTO(ReceiptDTO dto, @MappingTarget Receipt receipt);
 
     // Helper mapping: Map a simple userId String to a User entity (MapStruct will use this)
-    default User map(String userId) {
+    default User mapUserIdToUser(String userId) {
         if (userId == null) {
             return null;
         }
         User user = new User();
-        user.setId(userId);
+        user.setId(UUID.fromString(userId));
         return user;
     }
 }
